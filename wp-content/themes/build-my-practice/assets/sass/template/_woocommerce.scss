@@ -147,12 +147,6 @@
         }
     }
     .bundled_product_4 {
-        .bundled_product_optional_checkbox:after {
-            content: ' for Free until you complete three projects, $59 per user, per month thereafter (billed directly by LawYaw)';
-            display: inline;
-            color: #77a464;
-            font-size: 1.25em;
-        }
         .quantity:before {
             content: 'Number of users:';
         }
@@ -166,21 +160,7 @@
             content: 'Number of users:';
         }
     }
-    .bundled_product_6 {
-        .subscription-details {
-            display: none;
-        }
-        .price .amount:after {
-            content: ' Per Workstation (Laptop or Desktop), Per Month';
-            display: inline;
-            color: #77a464;
-        }
-        .quantity:before {
-            content: 'Number of users:';
-        }
-    }
-
-
+   
 }
 
 .subscription-thankyou-message {

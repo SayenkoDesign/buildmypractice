@@ -50,7 +50,9 @@ $table->set_template($template);
             return;
         }
                     
-        $services = array( 'domain' => 'Domains', 
+        $services = array( 
+                         'support' => 'Support',
+                         'domain' => 'Domains', 
                          'website_hosting' => 'Website Hosting', 
                          'office_365' => 'Office 365 / G Suite services', 
                          'voip_services' => 'VoIP services' );
@@ -62,47 +64,52 @@ $table->set_template($template);
         $count = 0;
         
         foreach( $services as $service => $label ) {
+            
+            if( empty($fields[$service] ) ) {
+                continue;
+            }
+            
+            $data = $fields[$service];
+            
+            $editor = $data['editor']; 
+            $list   = $data['list'];
+            $button = $data['button'];
+            
+            if( empty( $editor ) ) {
+                continue;   
+            }
                       
             $args = array();
             
             $content = sprintf( '<h2>%s:</h2>', $label );
+                            
+            //var_dump( $data );
             
-            $data = $fields[$service];
+            $active = $count ? false : true;
+            $count++;
+                            
             
-            if( ! empty( $data ) ) {
-                
-                //var_dump( $data );
-                
-                $active = $count ? false : true;
-                $count++;
-                                
-                $editor = $data['editor']; 
-                $list   = $data['list'];
-                $button = $data['button'];
-                                
-                if( ! empty( $editor ) ) {
-                    $content .= $editor;
-                }
-                
-                if( ! empty( $list ) ) {
-                    $table->set_heading( false );
-                    $content .= $table->generate( $list );
-                    $table->clear();
-                    
-                }
-                
-                if( ! empty( $button ) ) {
-                    $content .= pb_get_cta_button( $button, array( 'class' => 'button light-blue' ) );
-                }
+                            
+            if( ! empty( $editor ) ) {
+                $content .= $editor;
+            }
+            
+            if( ! empty( $list ) ) {
+                $table->set_heading( false );
+                $content .= $table->generate( $list );
+                $table->clear();
                 
             }
             
+            if( ! empty( $button ) ) {
+                $content .= pb_get_cta_button( $button, array( 'class' => 'button light-blue' ) );
+            }
             
             $args = array( 'title' => $label, 'content' => $content, 'active' => $active );
-            
+        
             $fa_tabs->add_tab( $args );
             
-        }
+        }   
         		
 	}
     

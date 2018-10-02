@@ -38,6 +38,7 @@ $table->set_template($template);
         global $my_account, $client, $fa_tabs, $table;
                     
         $services = array( 
+                         'support' => 'Support',
                          'domain' => 'Domains', 
                          'website_hosting' => 'Website Hosting', 
                          'office_365' => 'Office 365 / G Suite services', 
@@ -49,6 +50,20 @@ $table->set_template($template);
         
         foreach( $services as $service => $label ) {
                       
+            if( empty($fields[$service] ) ) {
+                continue;
+            }
+            
+            $data = $fields[$service];
+            
+            $editor = $data['editor']; 
+            $list   = $data['list'];
+            $button = $data['button'];
+            
+            if( empty( $editor ) ) {
+                continue;   
+            }
+            
             $href =  sprintf( '%s#%s', get_permalink( 346 ), sanitize_title_with_dashes( $label ) );   
                 
             $args = array( 'title' => $label, 'href' => $href );
