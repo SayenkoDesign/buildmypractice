@@ -1,0 +1,242 @@
+/* CSS Document */
+
+.woocommerce .site-main {
+    padding: 60px 0 60px;
+}
+
+.bundled_product_7 {
+    display: none;
+}
+
+.ginput_price {
+    display: none !important;
+}
+
+.cart .variation dt {
+    line-height: 1.45!important;   
+}
+
+.woocommerce-checkout .woocommerce-notice {
+    margin-bottom: $global-margin;   
+}
+
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+    background-color: $orange;
+    color: #fff;
+    &:hover {
+        background-color: scale-color( $orange, $lightness: 20%);
+    }
+}
+
+.woocommerce .add-to-cart-box button.button,
+.woocommerce .add-to-cart-box input.button {
+    padding: 10px 1em !important;
+}
+
+.woocommerce .add-to-cart-box .quantity .qty {
+    height: 40px;
+}
+
+.woocommerce .gfield_radio input {
+    vertical-align: top !important;
+}
+
+.woocommerce .gform_wrapper .gfield_radio li label {
+    margin: 2px 0 0 10px !important;
+}
+
+.bundled_product_excerpt ul {
+    padding-left: 30px;
+}
+
+.woocommerce-checkout-review-order-table,
+.woocommerce-cart-form__contents {
+    .variation ul {
+        display: none;
+    }
+}
+
+.woocommerce-checkout-review-order-table .product-quantity {
+    display: none;
+}
+
+#order_review_heading {
+    margin-top: 40px;
+}
+
+// Steps 
+#product-477,
+#product-466 {
+    .quantity:before {
+        content: 'Users:';
+    }
+    .office365-new .quantity:before {
+        content: 'How many Office 365 users do you need?';
+    }
+    .office365 .quantity:before {
+        content: 'How many Office 365 users do you have?';
+    }
+    .gsuite-new .quantity:before {
+        content: 'How many GSuite users do you need?';
+    }
+    .gsuite .quantity:before {
+        content: 'How many GSuite users do you have?';
+    }
+}
+
+#product-470 {
+    .quantity:before {
+        content: 'Number of user accounts that need migrating:';
+    }
+}
+
+#product-469 {
+    .quantity:before {
+        content: 'How many extensions do you need?';
+    }
+}
+
+#product-706 {
+    
+    .price {
+        display: none;    
+    }
+    
+    .quantity:before {
+        content: 'How many workstations do you need?';
+    }
+    
+    .entry-summary {
+        h3 {
+          margin-bottom: $global-margin;  
+        }
+    }
+}
+
+#product-477,
+#product-470,
+#product-469,
+#product-466,
+#product-706 {
+    .add-to-cart-box .wrap {
+        display: inline-block;
+        padding: 20px 10px;
+        background: #F1F1F1;
+    }
+    .add-to-cart-box.transparent .wrap {
+        background: transparent;
+    }
+}
+
+.single-product .gform_wrapper div.validation_error {
+    display: none !important;
+}
+
+.single-product .cart .gform_footer {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.postid-459 {
+    .bundled_product_3 {
+        .quantity:before {
+            content: 'Number of users:';
+        }
+    }
+    .bundled_product_4 {
+        .bundled_product_optional_checkbox:after {
+            content: ' for Free until you complete three projects, $59 per user, per month thereafter (billed directly by LawYaw)';
+            display: inline;
+            color: #77a464;
+            font-size: 1.25em;
+        }
+        .quantity:before {
+            content: 'Number of users:';
+        }
+    }
+    .bundled_product_5 {
+        .subscription-details {
+            display: none;
+        }
+        
+        .quantity:before {
+            content: 'Number of users:';
+        }
+    }
+    .bundled_product_6 {
+        .subscription-details {
+            display: none;
+        }
+        .price .amount:after {
+            content: ' Per Workstation (Laptop or Desktop), Per Month';
+            display: inline;
+            color: #77a464;
+        }
+        .quantity:before {
+            content: 'Number of users:';
+        }
+    }
+
+
+}
+
+.subscription-thankyou-message {
+    display: none;
+}
+
+.page-logo-brief .logo-box {
+    min-height: 150px !important;
+}
+
+.woocommerce-page .logo-box {
+    img {
+        max-width: 100% !important;
+    }
+}
+
+.woocommerce-page .gf_field_images {
+    margin-top: 0 !important;
+}
+
+.woocommerce-product-details__short-description img {
+    border: 1px solid $light-gray;
+    padding: 15px;
+    max-width: 230px;
+    max-height: 230px;
+}
+
+.bundled_product_excerpt img {
+    border: 1px solid $light-gray;
+    padding: 15px;
+    margin: 10px auto;
+    max-height: 80px;
+    width: auto;
+}
+
+.book-consultation {
+    margin-bottom: 45px;
+}
+
+.go-back {
+    margin-right: 10px !important;
+    background-color: $gray !important;
+    color: #fff !important;
+}
+
+.page-checkout {
+
+    #order_review_heading,
+    #order_review .shop_table thead,
+    #order_review .shop_table tbody {
+        display: none;
+    }
+
+    #order_review .shop_table,
+    #payment {
+        margin-top: 30px;
+    }
+
+}

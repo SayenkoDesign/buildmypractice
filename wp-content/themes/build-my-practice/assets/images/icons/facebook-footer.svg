@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="34" height="34" rx="17"></rect>
+        <path d="M6.97389341,15.75 L6.95454545,9.61363636 L4.5,9.61363636 L4.5,7.15909091 L6.95454545,7.15909091 L6.95454545,5.625 C6.95454545,3.34755 8.36487818,2.25 10.3965177,2.25 C11.3696959,2.25 12.2060884,2.32245205 12.449837,2.35483977 L12.449837,4.73490818 L11.0407868,4.73554636 C9.93586705,4.73554636 9.72192886,5.26058591 9.72192886,6.03104932 L9.72192886,7.15909091 L12.9375,7.15909091 L11.7102273,9.61363636 L9.72192886,9.61363636 L9.72192886,15.75 L6.97389341,15.75 Z" id="path-3"></path>
+    </defs>
+    <g id="Footer" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Footer---Mockup" transform="translate(-1238.000000, -568.000000)">
+            <g id="Group-3-Copy-2" transform="translate(1238.000000, 568.000000)">
+                <g id="Button/Icon---Rounded">
+                    <g id="Mixin/Button/Fill---Rounded">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Mask"></g>
+                        <g id="Mixin/Fill/Primary" mask="url(#mask-2)" fill-rule="evenodd" fill="#044E6D">
+                            <rect id="Box" x="0" y="0" width="34" height="34"></rect>
+                        </g>
+                    </g>
+                    <g id="Icon/App/Facebook" transform="translate(8.000000, 8.000000)">
+                        <rect id="Bounding-Box" x="0" y="0" width="18" height="18"></rect>
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <use id="Mask" fill="#3B5998" fill-rule="evenodd" xlink:href="#path-3"></use>
+                        <g id="Mixin/Fill/White" mask="url(#mask-4)" fill-rule="evenodd" fill="#FFFFFF">
+                            <rect id="Box" x="0" y="0" width="18" height="18"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

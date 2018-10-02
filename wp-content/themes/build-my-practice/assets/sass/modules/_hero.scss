@@ -1,0 +1,75 @@
+// Hero
+
+.hero {
+ 	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+    position: relative;
+    min-height: 288px;
+    
+   &.hero-overlay:after {
+        content: '';
+        background: rgba(#044E6D, .8); 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+    } 
+    
+    
+    @include breakpoint(medium) {
+        margin-top: -64px;
+    }
+    
+    
+    @include breakpoint(large) {
+        margin-top: -87px;
+    } 
+    
+    .wrap {
+        position: relative;
+        z-index: 3;   
+    }
+     
+     .entry-header {
+        position: relative;
+        text-align: center;  
+        margin-top: 5%; 
+        
+        h1 {
+            color: #FFFFFF;
+            margin-bottom: 15px;
+        }
+        
+        h2 {
+            color: #ECECEC;
+            margin-bottom: 0;
+            font-weight: 400;
+        }        
+        
+     }
+     
+     .entry-content {
+        margin-top: 45px; 
+        
+        p {
+          font-weight: normal;  
+        }   
+     }
+    
+}
+
+
+.section.flex {
+    display: table;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    > * {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+     }
+}

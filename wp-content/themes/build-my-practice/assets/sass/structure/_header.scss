@@ -1,0 +1,302 @@
+/*
+Header
+---------------------------------------------- */
+
+// Fix for sticky header
+.logged-in:not(.modal-menu-open) .site-header.fixed {
+    top: 46px;
+
+    @media screen and (min-width: 783px) {
+        top: 32px;
+    }      
+ }
+
+
+.site-header {
+     
+    background: #fff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    
+    .menu-toggle .menu-icon-white {
+        display: none;   
+    }
+    
+    @include breakpoint(medium) {
+        background: transparent;
+        position: relative;
+        top: auto;
+        
+        .menu-toggle .menu-icon {
+            display: none;   
+        }
+        
+        .menu-toggle .menu-icon-white {
+            display: block;   
+        }
+     }
+      
+    .wrap {
+        
+        .row {
+            position: relative;   
+        }
+         
+        .column {
+            height: 82px;  
+        }
+        
+        
+        .site-title {
+            width: 180px;
+            margin: 0 auto;   
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-top: 2px;
+            
+            a {
+                display: block;   
+            }
+        }
+        
+        @include breakpoint(medium) {
+            
+            color: white;
+            //position: absolute;
+            //top: 0;
+            width: 100%;
+            z-index: 10007; 
+                                     
+            border-top: 5px solid $blue-secondary;
+            
+            .column {
+                height: 64px;  
+            }
+            
+            .site-title {
+                //width: 160px;   
+                top: auto;
+                transform: none;
+                margin-top: 11px;
+            }
+             
+        }
+        
+        @include breakpoint(large) {
+            
+            .column {
+                height: 87px;  
+            }
+            
+            .site-title {
+                width: 316px; 
+            }
+        }
+        
+        
+        .view-cart {
+            display: inline-block;
+            position: absolute;
+            bottom: 5px;
+            right: 55px;
+            color: #fff;
+         
+            svg {
+                width: 18px;  
+                height: auto;
+                margin-right: 10px; 
+                fill: #fff;   
+            }
+            
+            @include breakpoint(large down) {
+                background: $dark-gray;
+                padding: 5px 15px;
+                right: 0;
+                bottom: -38px;
+            }
+            
+        }
+         
+    }
+    
+    .header-widgets {
+                
+        text-align: right;
+        position: relative;
+        
+        > * {
+            display: inline-block; 
+        }
+        
+        
+        
+        .widget {
+            
+        }
+        
+        .widget_text {
+            
+            margin-right: 20px;
+            
+            .widget-title {
+                color: #fff;
+                font-size: 15px;   
+                text-align: left;
+            }
+            
+            > div {
+                a {
+                    color: #fff; 
+                    font-size: 16px;
+                    font-weight: 700;  
+                    
+                    @include breakpoint(large) {
+                        font-size: 18px;
+                    }
+                }
+            }
+            
+            
+        }
+        
+        .widget_nav_menu {
+            
+            margin-right: 45px;
+            
+            .widget-title {
+                display: none;   
+            }
+            
+            ul {
+                @include list-reset;  
+                position: relative;
+                
+                &:before {
+                    content: '';
+                    display: block;
+                    background: $blue-secondary; 
+                    position: absolute;
+                    left: -10px;
+                    width: 75%;
+                    height: 100%;
+                    right: 0;
+                    bottom: 0;
+                    transform: skew(45deg);
+                }
+                
+                li {
+                    position: relative;
+                    z-index: 2;
+                                     
+                    a {
+                        color: #fff;
+                        font-size: 13px;
+                        letter-spacing: 1px;
+                        padding: 17px 15px;
+                        text-transform: uppercase;   
+                        z-index: 2;
+                        
+                        @include breakpoint(large) {
+                            padding: 17px 30px;
+                        }
+                    }
+                    
+                    &:first-child {
+                          a {
+                            
+                         }
+                     }
+                    
+                    &:last-child a {
+                        background: $orange;   
+                    }
+                }
+            }
+        }
+          
+    }
+    
+    
+    .mobile-phone {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: rem-calc(map-get($grid-column-gutter, small) /2 );  
+    }
+    
+    .menu-toggle {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: rem-calc(map-get($grid-column-gutter, small) /2 );  
+        
+        @include breakpoint(medium) {
+            top: 5px;
+            transform: none;
+            right: rem-calc(map-get($grid-column-gutter, medium) /2 );  
+        }
+    }
+    
+}
+
+
+.site-header {
+
+	&.fixed {
+		display: none;
+		
+		@media #{$xlarge-up} {
+      		display: block;
+		}
+		
+		transition: transform .25s ease-in-out;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 999;
+		transform: translateY(-150%);
+		background-color: white;
+		box-shadow: 0px 1px 4px #888888;	
+        
+        .wrap {
+            position: relative;
+            top: auto;   
+        }
+        
+        
+        .view-cart {
+            color: $dark-gray;
+            svg {
+                fill: $dark-gray;   
+            }
+        }
+        
+        
+        .widget_text {
+            
+            .widget-title {
+                color: $dark-blue;
+            }
+            
+            > div {
+                a {
+                    color: $dark-blue; 
+                }
+            }
+            
+        }
+        
+        .menu-toggle .menu-icon {
+            display: block;   
+        }
+	}
+
+	&.fixed.show {
+		transform: translateY(0);
+	}
+}

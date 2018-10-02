@@ -1,0 +1,39 @@
+// Sub Menu
+
+.nav-sub-menu {
+   background: #ececec; 
+}
+
+.nav-sub-menu ul {
+    @include list-reset;
+    margin: 0 0 0 -30px;
+    text-align: center;
+    
+    li {
+        display: inline-block;
+        margin: 0 0 0 30px;   
+    }
+    
+    a {
+        display: block;
+        padding: 12px 5px;
+        text-align: center;
+        color: #252B33;
+        
+        @media #{$medium-up} {
+            font-size: 20px;
+            line-height: 29px;
+            border-bottom: solid 2px transparent;
+            transition: ease all 0.3s;
+             
+            &:hover {
+                border-bottom: solid 2px $dark-blue;
+            }
+        }
+        
+     } 
+     
+     .current_page_item a {
+         border-bottom: solid 2px $dark-blue;
+     }
+}

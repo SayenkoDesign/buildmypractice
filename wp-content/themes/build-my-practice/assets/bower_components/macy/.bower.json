@@ -1,0 +1,34 @@
+{
+  "name": "macy",
+  "version": "2.3.0",
+  "homepage": "http://macyjs.com/",
+  "author": {
+    "name": "Big Bite Creative",
+    "url": "http://bigbitecreative.com",
+    "twitter": "@bigbitecreative"
+  },
+  "description": "Macy is a lightweight, dependency free, masonry layout library",
+  "main": "dist/macy.js",
+  "keywords": [
+    "masonry",
+    "layout"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "demo",
+    "tests"
+  ],
+  "_release": "2.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.3.0",
+    "commit": "00d40619fb682c58f7a22a0face88c2f13945850"
+  },
+  "_source": "https://github.com/bigbitecreative/macy.js.git",
+  "_target": "*",
+  "_originalSource": "macy"
+}

@@ -1,0 +1,57 @@
+//--------------------------------------------------------------
+// Navigation
+//--------------------------------------------------------------
+
+// Default menu (active after a fresh WordPress install)
+.menu {
+	@include list-reset;
+
+	ul {
+		@include list-reset;
+        
+         
+	}
+
+} // .menu
+
+
+.no-touchevents a[href^="tel:"] {
+	pointer-events: none;    /* prevents click event */
+    cursor: text;            /* use text highlight cursor*/	
+}
+
+// Navigation on Comment, Post and Posts
+.comment-navigation,
+.posts-navigation,
+.post-navigation {
+
+	.site-main & {
+		margin: 0;
+		//overflow: hidden;
+	} // .site-main &
+
+	&.nav-previous {
+		float: left;
+	} // &.nav-previous
+
+	&.nav-next {
+		float: right;
+		text-align: right;
+	} // &.nav-next
+} // .comment-navigation, .posts-navigation, .post-navigation
+
+
+.menu-toggle {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 38px;
+    height: 34px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;   
+
+    svg path {
+        fill: $dark-gray;
+     }
+}

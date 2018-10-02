@@ -1,0 +1,35 @@
+// Footer CTA
+
+.footer-cta {
+ 
+    background-color: $navy;
+    background-size: cover;
+    background-position: center top;   
+    background-repeat: no-repeat;
+    background-image: url(assets/images/bg-footer-cta.jpg);
+    
+    position: relative;
+    z-index: 2;
+    
+    .wrap {
+        padding: 75px 0!important;   
+    }
+    
+    .column {
+     
+        text-align: center;
+        
+        > * {
+            display: inline-block;   
+            vertical-align: middle;
+            padding: 15px;
+            margin: 0;
+        }
+        
+        h2 {
+            color: #fff;   
+            font-weight: 300;
+        }
+        
+    }
+}

@@ -1,0 +1,181 @@
+// Blog Articles
+
+// Fix issue with full width overflow slick slider on Blog Articles
+.modal-menu-open .blog-articles {
+    max-width: 0;   
+}
+
+
+.blog-articles {
+ 
+    .entry-header {
+    
+        text-align: center;
+        margin-bottom: 40px;   
+        
+         h2 {
+            position: relative;
+            
+            &:after {
+                background: $blue;
+                content: '';
+                width: 48px;
+                height: 3px;
+                margin: 12px auto 0;
+                display: block;   
+            }
+         }
+         
+         h4 {
+             color: #4A4A4A;
+             font-weight: 300;
+         }
+    }
+    
+    
+    max-width: 100vw;
+    overflow: hidden;   
+    
+    .slick-list {
+        @include breakpoint(large) {
+            padding: 0 100px!important;
+        }
+    }
+    
+}
+
+
+
+
+.slick-posts {
+    
+    .slick-slide {
+        padding: 0 6px;
+        .post {
+            position: relative;
+            width: 100%;
+            padding-top: 79%;
+            
+            .background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;   
+            }
+            
+            .details {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: auto;  
+                background: #000;
+                
+                h3,
+                .hover > * {
+                    padding: 0 20px 20px;
+                }
+                
+                h3 {
+                   padding: 20px; 
+                }
+                
+                h3 {
+                    color: #fff;   
+                }
+                
+                p {
+                    color: #9B9B9B;
+                    font-weight: normal;
+                    line-height: $paragraph-line-height;   
+                }
+            }
+            
+            &:hover {                
+                .hover {
+                    height: auto;
+                    max-height: 1000px;
+                    transition: max-height 2s ease-out;
+                }
+            }
+            .hover {
+                max-height: 0;
+                overflow: hidden;
+                position: relative;
+                bottom: 0;
+                z-index: 2;
+                transition: max-height 1s ease-out;
+            }
+            a {
+                text-decoration: none!important;
+            }
+        }
+    }
+    
+    
+    .slick-arrow {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        
+        width: 50px;
+        height: 100%;
+        
+        @include breakpoint(large) {
+            width: 100px!important;
+        }
+        
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+            @include breakpoint(large) {
+                width: 100px!important;
+            }
+        }
+        
+        &.arrow-left {
+            left: 0;
+            
+            &:before {
+                background-image: url('data:image/svg+xml;utf8,<svg width="26" height="45" xmlns="http://www.w3.org/2000/svg"><path d="M7.964 22.825L25.446 5.36c.296-.296.445-.637.445-1.023 0-.385-.149-.726-.445-1.022l-2.224-2.222C22.927.8 22.585.65 22.198.65c-.383 0-.725.15-1.024.444L.445 21.802C.149 22.1 0 22.442 0 22.825c0 .386.15.727.445 1.022l20.73 20.708c.298.298.637.445 1.023.445.387 0 .729-.147 1.024-.445l2.224-2.22c.296-.297.445-.638.445-1.024 0-.383-.149-.724-.445-1.02L7.964 22.825z" fill="#252B33" fill-rule="evenodd"/><span class="screen-reader-text">previous</span></svg>'); 
+            }
+        }
+        
+        &.arrow-right {
+            right: 0;
+            
+            &:before {
+                background-image: url('data:image/svg+xml;utf8,<svg width="27" height="45" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 21.905L.762 39.37c-.296.296-.446.636-.446 1.022s.15.727.446 1.023l2.224 2.221c.295.296.637.445 1.024.445.383 0 .725-.15 1.023-.445l20.73-20.707c.295-.299.445-.64.445-1.023 0-.386-.15-.727-.445-1.023L5.033.175C4.735-.124 4.396-.27 4.01-.27c-.387 0-.729.146-1.024.445L.762 2.395c-.296.297-.446.637-.446 1.023 0 .384.15.725.446 1.021l17.482 17.466z" fill="#252B33" fill-rule="evenodd"/><span class="screen-reader-text">next</span></svg>');                   
+            }
+        }
+        
+        
+        &:hover {
+            &.arrow-left {
+                 
+                &:before {
+                    background-image: url('data:image/svg+xml;utf8,<svg width="26" height="45" xmlns="http://www.w3.org/2000/svg"><path d="M7.964 22.825L25.446 5.36c.296-.296.445-.637.445-1.023 0-.385-.149-.726-.445-1.022l-2.224-2.222C22.927.8 22.585.65 22.198.65c-.383 0-.725.15-1.024.444L.445 21.802C.149 22.1 0 22.442 0 22.825c0 .386.15.727.445 1.022l20.73 20.708c.298.298.637.445 1.023.445.387 0 .729-.147 1.024-.445l2.224-2.22c.296-.297.445-.638.445-1.024 0-.383-.149-.724-.445-1.02L7.964 22.825z" fill="#044E6D" fill-rule="evenodd"/><span class="screen-reader-text">previous</span></svg>'); 
+                }
+            }
+            
+            &.arrow-right {
+                 
+                &:before {
+                    background-image: url('data:image/svg+xml;utf8,<svg width="27" height="45" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 21.905L.762 39.37c-.296.296-.446.636-.446 1.022s.15.727.446 1.023l2.224 2.221c.295.296.637.445 1.024.445.383 0 .725-.15 1.023-.445l20.73-20.707c.295-.299.445-.64.445-1.023 0-.386-.15-.727-.445-1.023L5.033.175C4.735-.124 4.396-.27 4.01-.27c-.387 0-.729.146-1.024.445L.762 2.395c-.296.297-.446.637-.446 1.023 0 .384.15.725.446 1.021l17.482 17.466z" fill="#044E6D" fill-rule="evenodd"/><span class="screen-reader-text">next</span></svg>');                   
+                }
+            }
+        }
+           
+    }
+       
+}

@@ -1,0 +1,71 @@
+/* CSS Document */
+
+
+#gform_wrapper_11 .gfield_checkbox {
+    
+    input {
+        vertical-align: top!important;
+    }
+}
+
+
+#gform_wrapper_11 .gfield_radio {
+    
+    label {
+        font-size: 0;
+        color: transparent;
+        max-width: calc(100% - 15px)!important;
+        display: block!important;
+    }
+    
+    input {
+        @extend %screen-reader-text;   
+    }
+    
+    input:checked + label div div {
+        border: 1px solid #000;
+    }
+}
+
+
+.gf_field_images {
+    margin-top: $global-margin;   
+}
+
+.gf_field_images.checkbox .logo-box {
+    
+    position: relative;
+    border: 1px solid $light-gray;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+        width: 200px; 
+        height: auto;
+        
+    }
+    
+}
+
+
+.gf_field_images.radio .logo-box {
+    
+    border: 1px solid $light-gray;
+    padding: 15px;
+    width: 100%;
+    min-width: 250px;
+    height: 200px;
+    position: relative;
+    
+    img {
+        max-width: 100%; 
+        height: auto;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);  
+    }
+    
+}

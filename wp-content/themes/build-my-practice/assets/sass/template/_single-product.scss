@@ -1,0 +1,45 @@
+
+
+.woocommerce #content div.product div.summary, 
+.woocommerce div.product div.summary, 
+.woocommerce-page #content div.product div.summary, 
+.woocommerce-page div.product div.summary {
+    float: none;
+    width: 100%;
+    clear: none;
+}
+
+
+.single-product .single_add_to_cart_button {
+    //display: none!important;   
+}
+
+
+.product-type-bundle {
+    p.price {
+        display: none;   
+    }
+}
+
+.bundle_form {
+    
+    display: flex;
+    flex-wrap: wrap;
+ 
+    .bundled_product {
+       width: 50%
+    }
+    
+    .bundled_product_images {
+        float: none!important;
+        width: auto!important;
+        margin: 0 auto!important;   
+    }
+    
+    .cart {
+        width: 100%;
+        text-align: center;
+        adding-bottom: 4px;
+    }
+    
+}

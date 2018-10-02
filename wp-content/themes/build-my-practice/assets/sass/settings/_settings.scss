@@ -1,0 +1,181 @@
+//  Settings (includes overrides for sass/foundation/settings.scss)
+//  -----------------------------
+//
+//  Table of Contents:
+//
+//   1. Global
+//   2. Breakpoints
+//   3. The Grid
+//   4. Base Typography
+//   5. Off Canvas Menu
+
+
+// 1. Global
+// ---------
+
+$global-font-size: 100%;
+$global-width: 1210px;
+$global-lineheight: 1.4;
+
+$orange: #F48C38;
+$black: #000;
+$white: #ffffff;
+
+$light-gray: #D8D8D8;
+$gray: #979797;
+$dark-gray: #242b33;
+
+$navy: #044E6D;
+
+$light-blue: #D6F2F7; // footer
+ 
+$blue: #51B6C8;
+$blue-hover: rgba(#00A2BD, .6);
+$dark-blue: #044e6d;
+
+$blue-secondary: #04A1BC; // header
+
+$transition: ease all 0.3s;
+
+$body-background: #FFF;
+$body-font-color: #454C54;
+$body-font-family: 'Roboto', sans-serif;
+
+
+$global-margin: 30px;
+$global-padding: 10px;
+$global-weight-normal: normal;
+$global-weight-bold: 700;
+$global-radius: 0;
+$global-text-direction: ltr;
+
+
+// 2. Breakpoints
+// --------------
+
+$breakpoints: (
+  small: 0,
+  medium: 640px,
+  large: 980px,
+  xlarge: 1024px,
+  xxlarge: 1200px,
+  xxxlarge: 1440px
+);
+// must match $breakpoints
+$breakpoint-classes: (small medium large xlarge xxlarge xxxlarge);
+
+
+// 3. The Grid
+// -----------
+
+$grid-row-width: $global-width;
+$grid-column-count: 12; // usually 12
+$grid-column-gutter: (
+  small: 40px,
+  medium: 20px
+);
+$grid-column-align-edge: true;
+$block-grid-max: 8;
+
+
+// 4. Base Typography
+// ---------
+
+$header-font-family: 'Roboto', sans-serif;
+$header-font-weight: 400;
+$header-font-style: normal;
+
+/// Styles for headings at various screen sizes. Each key is a breakpoint, and each value is a map of heading styles.
+/// @type Map
+$header-styles: (
+  small: (
+    'h1': ('font-size': 40),
+    'h2': ('font-size': 30),
+    'h3': ('font-size': 24),
+    'h4': ('font-size': 20),
+    'h5': ('font-size': 18),
+    'h6': ('font-size': 16),
+  ),
+  medium: (
+    'h1': ('font-size': 43),
+    'h2': ('font-size': 30),
+    'h3': ('font-size': 24),
+    'h4': ('font-size': 20),
+    'h5': ('font-size': 18),
+    'h6': ('font-size': 16),
+  ),
+) !default;
+
+$header-color: $navy;
+$header-lineheight: 1.33;
+$header-margin-bottom: 30px;
+$small-font-size: 14px;
+$header-small-font-color: $navy;
+
+$paragraph-font-family: $body-font-family;
+$paragraph-font-style: normal;
+$paragraph-font-weight: 300;
+$paragraph-font-size: 20px;
+$paragraph-line-height: 29px;
+$paragraph-font-color: #454C54;
+$paragraph-margin-bottom: 30px;
+
+$anchor-color: #333;
+$anchor-color-hover: scale-color(#333, $lightness: 20%);
+
+
+
+$accordionmenu-arrows: false;
+
+/// Tabs
+
+/// Default margin of the tab bar.
+/// @type Number
+$tab-margin: 0 !default;
+
+/// Default background color of a tab bar.
+/// @type Color
+$tab-background: $white !default;
+
+/// Font color of tab item.
+/// @type Color
+$tab-color: $body-font-color !default;
+
+/// Active background color of a tab bar.
+/// @type Color
+$tab-background-active: #EFF3F1 !default;
+
+/// Active font color of tab item.
+/// @type Color
+$tab-active-color: $body-font-color !default;
+
+/// Font size of tab items.
+/// @type Number
+$tab-item-font-size: 20px !default;
+
+/// Default background color on hover for items in a Menu.
+$tab-item-background-hover: transparent !default;
+
+/// Default padding of a tab item.
+/// @type Number
+$tab-item-padding: 1.25rem 1.5rem !default;
+
+/// Maximum number of `expand-n` classes to include in the CSS.
+/// @type Number
+$tab-expand-max: 6 !default;
+
+/// Default background color of tab content.
+/// @type Color
+$tab-content-background: $white !default;
+
+/// Default border color of tab content.
+/// @type Color
+$tab-content-border: $light-gray !default;
+
+/// Default text color of tab content.
+/// @type Color
+$tab-content-color: $body-font-color !default;
+
+/// Default padding for tab content.
+/// @type Number | List
+$tab-content-padding: 0 1rem !default;

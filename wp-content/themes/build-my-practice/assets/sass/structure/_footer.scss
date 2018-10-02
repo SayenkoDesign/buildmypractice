@@ -1,0 +1,144 @@
+//
+// Footer
+// --------------------------------------------------
+
+.footer-widgets {
+    background-color: $light-blue;
+    position: relative;
+    z-index: 2;
+    
+    .wrap {
+        padding: 54px 0 0;   
+    }
+    
+    .widget {
+        margin-bottom: $global-margin;   
+        
+        img,
+        svg {
+            margin-bottom: 10px;   
+            
+            @include breakpoint(small only) {
+                max-width: 90%;
+            }
+        }
+    }
+    
+    .widget-title {
+        position: relative;
+        margin-bottom: 15px;
+        font-size: 20px;
+        font-weight: 500;
+         
+        &:before {
+            content: '';
+            display: block;
+            width: 180px;
+            height: 2px;
+            background: $orange;   
+            margin-bottom: 11px;
+        }
+    }
+    
+    p,
+    li {
+        font-size: 14px;
+        line-height: 21px;   
+    }
+    
+    .menu {
+        
+        li {
+            display: block;   
+            margin: 0 auto 18px;
+            
+            a {
+                color: $blue-secondary;
+                padding: 0;   
+            }
+        }
+    }
+    
+}
+
+.site-footer {
+    background-color: $light-blue;
+    
+    .wrap {
+        padding: 0 0 20px;   
+    }
+    
+    p {
+        font-size: 10px;
+        line-height: 1.2;
+        
+        span {
+            @include breakpoint(small only) {
+                display: block;
+            }
+        }
+        
+        a {
+            color: $navy;
+            text-decoration: underline;   
+        }
+    }
+    
+         .row div {
+            display: flex;
+            justify-content: space-between; 
+            padding: 20px 0;
+            border-top: 1px solid $blue;
+            border-bottom: 1px solid $blue;
+            
+            > * {
+                align-self:center;
+                margin: 0;   
+            }
+        }
+    
+}
+
+.site-footer .social-icons {
+    @include list-reset;
+    margin-top: $global-margin;
+    height: 34px;
+      
+    li {
+       display: inline-block;
+       padding-left: 10px;   
+       height: 34px;
+    }
+    
+    a {
+        transition: $transition;
+        width: 34px;
+        height: 34px;
+        display: block;
+        background-color: $navy;
+        border-radius: 50%;
+        position: relative;
+        &:hover {
+            background-color: $blue;
+            border-radius: 50%;
+        }
+    }
+    
+    svg {
+        width: 24px;
+        height: 24px;
+        fill: $white;  
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);  
+    }
+    
+    
+    @include breakpoint(large) {
+        
+        li {
+           padding-left: 10px;   
+        }
+    }
+}

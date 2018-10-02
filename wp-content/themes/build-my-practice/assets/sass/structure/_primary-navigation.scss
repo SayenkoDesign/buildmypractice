@@ -1,0 +1,88 @@
+// Primary Navigation
+
+.nav-primary {
+    
+    
+    .is-accordion-submenu-parent > a {
+        position: relative;
+        
+        &:before {
+            content: '';
+            display: inline-block;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            width: 10px;
+            height: 10px; 
+         }
+    }
+        
+    @include breakpoint(small only) {
+    
+         ul:not(.sub-menu) {
+             
+            li {
+               a {
+                    padding: rem-calc(map-get($grid-column-gutter, small) /4 ) rem-calc(map-get($grid-column-gutter, small) /2 );
+                    padding-right: 20px;
+                    
+                    &:before {
+                        right: rem-calc(map-get($grid-column-gutter, small) /2 );
+                        top: 50%;  
+                        position: absolute;
+                        transform: translateY(-50%) rotate(-45deg);
+                    }                    
+               }
+            }
+            
+            li.my-account {
+                > a {
+                    background: $blue-secondary;
+                    padding: rem-calc(map-get($grid-column-gutter, small) /2 );
+                }
+            }
+            
+            li.build-quote {
+                > a {
+                    background: $orange;
+                    padding: rem-calc(map-get($grid-column-gutter, small) /2 );
+                }
+            }
+        }
+        
+    }
+        
+    width: auto;
+    
+    a {
+        color: #fff;  
+        font-weight: 400;
+    }
+    
+    
+    
+    
+    @include breakpoint(medium) {
+
+          
+        .menu > li {
+             text-align: right;
+             font-size: 20px;
+             
+             a {
+                padding: rem-calc(11) rem-calc(16);   
+             }
+        }
+        
+        .is-accordion-submenu-parent > a {
+            display: inline-block;
+            &:before {
+                top: 50%;
+                transform: translateY(-50%) rotate(45deg);
+                position: relative;
+                margin: -3px 10px 0 0;
+            }
+        }
+    
+    }
+    
+}

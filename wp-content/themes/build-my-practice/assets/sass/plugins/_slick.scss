@@ -1,0 +1,17 @@
+.slick-slider {
+    visibility: hidden;
+    
+    &.slick-initialized {
+        visibility: visible;  
+    }
+    
+    .slick-slide {
+        &:focus {
+            outline: none;   
+       }   
+    }
+}
+
+.slick-dots li button:before {
+    font-size: 12px!important;
+}

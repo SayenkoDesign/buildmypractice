@@ -1,0 +1,24 @@
+// Logos
+
+
+section.logos {
+    
+    text-align: center;
+    
+    .wrap {
+         padding: 75px 0;   
+    }
+ 
+    .column.logo {
+        width: auto;
+        float: none;
+        display: inline-block;     
+        clear: none; 
+        
+        .spacer {
+            padding: 15px;   
+        }
+        
+    }
+    
+}

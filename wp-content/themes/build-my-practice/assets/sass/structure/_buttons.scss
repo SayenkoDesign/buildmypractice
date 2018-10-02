@@ -1,0 +1,148 @@
+@mixin button {
+    display: inline-block;
+    min-width: 177px;
+    padding: 12px 8px;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.5;
+    transition: ease all 0.3s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none!important;
+    
+    &.disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+    
+    svg {
+       position: absolute;
+       left: 10px;
+       top: 50%;
+       transform: translateY(-50%);
+    }
+}
+
+
+.button {
+    @include button;
+    background-color: $orange;
+    color: #fff;
+    border: solid 3px $orange;
+    
+    &:visited,
+    &:active,
+    &:focus {
+        color: #fff;
+    }
+    
+    &:hover{
+        background-color: white;
+        color: $orange;
+        border-color: #fff;
+    }
+    
+    
+    
+    &.blue {
+        background-color: $navy;
+        color: #fff;
+        border-color: $navy;
+        
+        &:visited,
+        &:focus,
+        &:active {
+            color: #fff;
+        }
+       
+        &:hover{
+            background-color: white;
+            color: $navy;
+            border-color: $navy;
+        }
+    }
+    
+    &.light-blue {
+        background-color: $blue;
+        color: #fff;
+        border-color: $blue;
+        
+        &:visited,
+        &:focus,
+        &:active {
+            color: #fff;
+        }
+       
+        &:hover{
+            background-color: white;
+            color: $blue-hover;
+            border-color: $blue-hover;
+        }
+    }
+    
+    &.white {
+       color: white;
+       background-color: transparent;
+       border-color: white;
+       
+       &:visited,
+       &:focus,
+       &:active {
+            color: #fff;
+        }
+       
+       &:hover {
+          color: $navy!important;
+          background-color: white!important;
+          border-color: #fff;
+       }
+    }
+    
+    &.orange {
+        background-color: $orange;
+        border: solid 3px $orange;
+        color: #fff;
+        
+        &:visited,
+        &:focus,
+        &:active {
+            color: #fff;
+        }
+        
+        &:hover{
+            background-color: #fff;
+            color: $orange!important;
+        }   
+    }
+
+}
+
+
+.btn-secondary {
+    @include button;
+    background-color: transparent;
+    border: solid 3px $orange;
+    color: $orange;
+    
+    &:visited,
+    &:focus,
+    &:active {
+        color: $orange;
+    }
+    
+    &:hover{
+        background-color: $orange;
+        color: white!important;
+        border: solid $orange 3px;
+    }
+}
+
+.buttons {
+ 
+    a {
+        margin-bottom: 15px;   
+    }
+    
+}
