@@ -38,7 +38,7 @@ add_action( 'woocommerce_process_product_meta', 'cfwc_save_custom_field' );
 
 
 
-// Bundled products filter the price html
+// Bundled products filter the label title, then remove the price
 
 add_filter( 'bundled_item_product_label_title', function( $price, $item ) { 
     global $post;
@@ -47,6 +47,17 @@ add_filter( 'bundled_item_product_label_title', function( $price, $item ) {
 	$custom_price = $product->get_meta( 'bundled_item_product_price' );
     if( ! empty( $custom_price ) ) {
         $price = $custom_price;
+    }
+    return $price;    
+}, 10, 2 );
+
+add_filter( 'bundled_item_product_price_html', function( $price, $item ) { 
+    global $post;
+	// Check for the custom field value
+	$product = wc_get_product( $item->product->get_id() );
+	$custom_price = $product->get_meta( 'bundled_item_product_price' );
+    if( ! empty( $custom_price ) ) {
+        $price = '';
     }
     return $price;    
 }, 10, 2 );

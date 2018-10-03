@@ -5,7 +5,7 @@ add_filter( 'woocommerce_prevent_admin_access', '__return_false' );
 add_filter( 'woocommerce_disable_admin_bar', '__return_false' );
 
 // Remove add to cart notice
-add_filter( 'wc_add_to_cart_message_html', '__return_null' );
+//add_filter( 'wc_add_to_cart_message_html', '__return_null' );
 
 
 /// woocommerce/includes/wc-template-hooks.php
@@ -261,9 +261,13 @@ function change_woocommerce_return_to_shop_text( $translated_text, $text, $domai
 }
 
 // If someone hits back button, remove product
-add_action( 'template_redirect', 'remove_product_from_cart' );
 function remove_product_from_cart() {
     // Run only in the Cart or Checkout Page
+    $allowed = false;
+    if( !empty( $_GET['bmp-action'] ) ) {
+        $allowed = $_GET['bmp-action'];
+    }
+    
     if( is_singular( 'product' ) ) {
         // Set the product ID to remove
         $prod_to_remove = get_the_ID();
@@ -273,13 +277,44 @@ function remove_product_from_cart() {
             // Get the Variation or Product ID
             $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
             // Check to see if IDs match
-            if( $prod_to_remove == $prod_id ) {
-                error_log( 'product ID :' . $prod_id );
+            if( ( ( $prod_to_remove == $prod_id ) && ( 'remove-product' == $allowed ) ) ) {
                 WC()->cart->remove_cart_item( $cart_item_key );
+                wc_add_notice( 'Step removed. You may now re-add this step.', 'success' );
             }
         }
     }
 }
+
+add_action( 'template_redirect', 'remove_product_from_cart' );
+
+
+
+function custom_maybe_empty_cart( $valid, $product_id, $quantity ) {
+
+    if( ! empty ( WC()->cart->get_cart() ) && $valid ){
+ 
+        // Cycle through each product in the cart
+        foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
+            // Get the Variation or Product ID
+            $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
+            // Check to see if IDs match
+            if( $product_id == $prod_id ) {
+                $redirect = get_field( 'product_redirect_url', $product_id );
+                $redirect = $redirect ? sprintf( '<a href="%s" class="">Continue to Next Step</a>', $redirect ) : '';
+                $remove = sprintf( '<a href="%s?bmp-action=remove-product" class="">Clear this step</a>', 
+                                   get_permalink( $product_id ) );
+                $cart_url = sprintf( '<a href="%s" class="">Return to Cart</a>', wc_get_cart_url() );
+                wc_add_notice( sprintf( 'You have completed this step. %s,  %s or %s.', $remove, $redirect, $cart_url ), 'error' );
+                return false;
+            }
+        }
+    }
+    
+    return $valid;
+}
+add_filter( 'woocommerce_add_to_cart_validation', 'custom_maybe_empty_cart', 10, 3 );
+
+
 
 
 add_action( 'woocommerce_before_cart', 'bmp_find_product_in_cart' );
