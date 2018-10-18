@@ -53,6 +53,12 @@ add_action( 'woocommerce_after_main_content', function() {
 });
 
 
+add_filter( 'wc_add_to_cart_message', 'remove_add_to_cart_message' );
+
+function remove_add_to_cart_message() {
+    return;
+}
+
  
 function woo_custom_cart_button_text() {
    return __( 'Next', 'woocommerce' );
@@ -443,7 +449,7 @@ function mandatory_category_checkout_redirect() {
     }
 }
 // Disable for testing checkout
-add_action('template_redirect', 'mandatory_category_checkout_redirect');
+//add_action('template_redirect', 'mandatory_category_checkout_redirect');
 
 
 
