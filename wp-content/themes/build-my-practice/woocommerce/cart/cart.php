@@ -88,7 +88,9 @@ do_action( 'woocommerce_before_cart' ); ?>
 						}
                         */
                         
-                        echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<strong>%s</strong>', $_product->get_name() ), $cart_item, $cart_item_key ) );
+                        echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() ), $cart_item, $cart_item_key ) );
+                        
+                        //echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<strong>%s</strong>', $_product->get_name() ), $cart_item, $cart_item_key ) );
 
 						do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
 
