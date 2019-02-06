@@ -6,8 +6,8 @@ add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
 
 function is_valid_domain( $domain ) {
     
-    $username = 'kylerumble';
-    $password = 'LpQUUw8OlDHTt8Inr4I'; // 
+    $username = 'ExactifyIT'; // kylerumble
+    $password = 'BuildMyPractice2018!'; // LpQUUw8OlDHTt8Inr4I
     
     $url = 'https://www.whoisxmlapi.com/whoisserver/WhoisService';
     $args = array(
