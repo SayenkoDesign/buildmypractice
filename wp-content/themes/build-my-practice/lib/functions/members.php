@@ -26,6 +26,9 @@ function is_client_logged_in() {
  * @since 	1.0
  */
 function bmp_login_redirect( $redirect_to, $request, $user  ) {
+    if( is_wp_error( $user ) ) {
+        return $redirect_to;
+    }
 	return ( is_array( $user->roles ) && in_array( array( 'administrator', 'vendor' ), $user->roles ) ) ? admin_url() : home_url();
 }
 add_filter( 'login_redirect', 'bmp_login_redirect', 10, 3 );
