@@ -4,6 +4,90 @@
 add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
 
 
+/*
+save all fields with dynamic name
+gf_form_XX_field_XX
+example: gf_form_3_field_31
+*/
+
+
+// Helper function to get form session field value
+function bmp_session_get_field_value( $form_id = false, $field_id = false ) {
+    
+    $data = WC()->session->get( sprintf( 'gf_form_%s_data', $form_id ) );
+    $key = sprintf( 'gf_form_%s_field_%s', $form_id, $field_id );
+    if( ! empty( $data[$key] ) ) {
+        return $data[$key];
+    }
+    
+    return false;
+}
+
+
+// Loop through all form submissions and save the data to a session. 
+// This is all stored inside a session variable: gf_form_{FORM_ID}_data
+function pre_submission_handler( $form ) {
+	
+    $session_values = [];
+    
+    foreach( $form["fields"] as &$field ) {
+            $key = sprintf( 'gf_form_%s_field_%s', $form['id'], $field['id'] );
+            $value = $_POST['input_' . $field['id']];
+            $session_values[$key] = $value;            
+	}
+    
+    if( ! empty( $session_values ) ) {
+        WC()->session->set( sprintf( 'gf_form_%s_data', $form['id'] ) , $session_values );
+    }
+}
+
+add_action("gform_pre_submission", "pre_submission_handler");
+
+
+function add_auto_update_filters( $form ) {
+	    
+    $session_values = WC()->session->get( sprintf( 'gf_form_%s_data', $form['id'] ) );
+        
+    // Bail if no session data
+    if( empty( $session_values ) ) {
+        return $form;
+    }
+    
+    foreach( $form["fields"] as &$field ) {
+		
+        // Check if field is set to be prepopulated?
+        if( ! $field["allowsPrepopulate"] ) {
+            continue;   
+        }
+                                
+        add_filter( sprintf( 'gform_field_value_%s', $field['inputName'] ), function( $value, $field, $name ) use( &$form, &$session_values ) {
+            
+            $key = sprintf( 'gf_form_%s_field_%s', $form['id'], $field["id"] );
+            $values = $session_values[$key];
+            
+            // Silly Gravity forms, their Product options need to have the price removed.
+            // AKA remove the |PRICE
+            
+            if( ! is_array( $values ) && 'option' == $field['type'] ) {
+                $parts = explode( '|', $values );
+                if( ! empty( $parts[0] ) ) {
+                    $values = $parts[0];
+                }
+            }
+            
+            // print_r( $session_values );
+            return isset( $values ) ? $values : $value;
+            
+        }, 10, 3 );
+		
+	}
+	return $form;
+}
+add_filter( 'gform_pre_render', 'add_auto_update_filters' );
+//add_filter( 'gform_pre_validation', 'add_auto_update_filters' );
+//add_filter( 'gform_pre_submission', 'add_auto_update_filters' );
+
+
 function is_valid_domain( $domain ) {
     
     $username = 'ExactifyIT'; // kylerumble

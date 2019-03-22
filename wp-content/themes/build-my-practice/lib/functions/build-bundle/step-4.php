@@ -8,13 +8,9 @@ form_id = 3
 
 $form_id = 5;
 
-add_filter( sprintf( 'gform_pre_render_%s', $form_id ), 'preferred_email_address' );
-add_filter( sprintf( 'gform_pre_validation_%s', $form_id ), 'preferred_email_address' );
-add_filter( sprintf( 'gform_pre_submission_filter_%s', $form_id ), 'preferred_email_address' );
-//add_filter( sprintf( 'gform_admin_pre_render_%s', $form_id ), 'preferred_email_address' );
 function preferred_email_address( $form ) {
     
-    
+    // Need to check for empty session data and bail if not found.
  
     foreach ( $form['fields'] as &$field ) {
  
@@ -22,34 +18,36 @@ function preferred_email_address( $form ) {
             continue;
         }
         
-        $defaults = array(
-            'first' => 'first',
-            'last' => 'last',
-            'email' => 'email',
-        );
-        
-        $step_2_data = WC()->session->get( 'step_2_data' );        
-        $step_2_data = wp_parse_args( $step_2_data, $defaults );
-                        
-        $first = $step_2_data['first'];
-        $first = strtolower( $first );
-        
-        $first_letter = '[FIRST LETTER OF FIRST NAME]';
-        if( '[FIRST NAME]' != $first ) {
-            $first_letter = $first[0];
+        $first_name = bmp_session_get_field_value( 3, 24 );
+        if( empty( $first_name ) ) {
+            $first_name = '[FIRST NAME]';
+        }
+        $last_name = bmp_session_get_field_value( 3, 25 );
+        if( empty( $last_name ) ) {
+            $last_name = '[LAST NAME]';
+        }
+        $email = bmp_session_get_field_value( 3, 33 );
+        if( empty( $email ) ) {
+            $email = 'first';
         }
         
-        $last = $step_2_data['last'];
-        $last = strtolower( $last );
+        $first_name = strtolower( $first_name );
         
-        $domain = 'domain.com';
-        $step_3_data = WC()->session->get( 'step_3_data' );
-        if( isset( $step_3_data['domain'] ) && !empty( $step_3_data['domain'] ) ) {
-           $domain = $step_3_data['domain']; 
+        $first_letter = '[FIRST LETTER OF FIRST NAME]';
+        if( ! empty( $first_name ) ) {
+            $first_letter = $first_name[0];
+        }
+        
+        $last_name = strtolower( $last_name );
+        
+        $domain = bmp_session_get_field_value( 4, 3 );
+        if( empty( $domain ) ) {
+           $domain = 'domain.com'; 
         }
         
         $last_option = '';
-
+        
+        /*
         $email_option = $step_2_data['email_option'];
 
         if( _string_contains( 'I already have', $email_option ) ) {
@@ -58,12 +56,13 @@ function preferred_email_address( $form ) {
         else {
         	$last_option = 'Other';
         }
+        */
          
         $options = array(
-            sprintf( '%s.%s@%s', $first, $last, $domain ),
-            sprintf( '%s@%s', $first, $domain ),
-            sprintf( '%s@%s', $last, $domain ),
-            sprintf( '%s.%s@%s', $first_letter, $last, $domain ),
+            sprintf( '%s.%s@%s', $first_name, $last_name, $domain ),
+            sprintf( '%s@%s', $first_name, $domain ),
+            sprintf( '%s@%s', $last_name, $domain ),
+            sprintf( '%s.%s@%s', $first_letter, $last_name, $domain ),
             $last_option
         );
  
@@ -84,9 +83,11 @@ function preferred_email_address( $form ) {
  
     return $form;
 }
+add_filter( sprintf( 'gform_pre_render_%s', $form_id ), 'preferred_email_address' );
+add_filter( sprintf( 'gform_pre_validation_%s', $form_id ), 'preferred_email_address' );
+add_filter( sprintf( 'gform_pre_submission_filter_%s', $form_id ), 'preferred_email_address' );
 
 
-add_filter( 'gform_field_value_preferred_email', 'bmp_populate_preferred_email' );
 function bmp_populate_preferred_email( $value ) {
     
     $data = WC()->session->get( 'step_2_data' );
@@ -108,6 +109,7 @@ function bmp_populate_preferred_email( $value ) {
     }
     
 }
+add_filter( 'gform_field_value_preferred_email', 'bmp_populate_preferred_email' );
 
 
 

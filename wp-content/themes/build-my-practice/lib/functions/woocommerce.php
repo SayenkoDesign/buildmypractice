@@ -1,21 +1,16 @@
 <?php
 
-/* Code goes in theme functions.php */
+
+/*
+    Hooks Reference - woocommerce/includes/wc-template-hooks.php
+*/
+
+// Remove admin bar
 add_filter( 'woocommerce_prevent_admin_access', '__return_false' );
 add_filter( 'woocommerce_disable_admin_bar', '__return_false' );
 
-// Remove add to cart notice
-//add_filter( 'wc_add_to_cart_message_html', '__return_null' );
 
-
-/// woocommerce/includes/wc-template-hooks.php
-
-/**
- * Custom Body Class
- *
- * @param array $classes
- * @return array
- */
+// Remove breadcrumbs and sidebar
 function _s_woocommerce_hooks() {
     
   // Remove breakcrumbs
@@ -24,12 +19,9 @@ function _s_woocommerce_hooks() {
   // WooCommerce Remove Sidebar 
   remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
   
-  if( is_page_template( 'woocommerce/template-product-bundle.php' ) ) {
-                
-  }
-
 }
 add_action( 'woocommerce_init', '_s_woocommerce_hooks' );
+
 
 
 // Remove product thumbnails
@@ -43,51 +35,52 @@ remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_r
 
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 
+
+// Wrap the main content area for Foundation
 add_action( 'woocommerce_before_main_content', function() {
     echo '<div class="column row">';
 });
-
 
 add_action( 'woocommerce_after_main_content', function() {
     echo '</div>';
 });
 
 
-add_filter( 'wc_add_to_cart_message', 'remove_add_to_cart_message' );
-
+// Remove add to cart message
 function remove_add_to_cart_message() {
     return;
 }
+add_filter( 'wc_add_to_cart_message', 'remove_add_to_cart_message' );
 
  
+ 
+// Change Add to cart text
 function woo_custom_cart_button_text() {
-   return __( 'Next', 'woocommerce' );
-}
-
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
-
-
-function bmp_show_cart_data() {
     
-    if( ! WP_DEBUG ) {
-        return;
+    global $product;
+    $product_id = $product->get_id();
+    $products = bmp_get_products_by_cat( 32 );
+    
+    $keys = array_keys( $products );
+    $last = end( $keys );
+    $key = array_search ( $product_id, $products );
+    $step = $key + 2;
+    
+    // Next step
+    $step++;
+    
+    // Is this the last step?
+    if( $last == $key ) {
+        $next = 'proceed to cart';
+    } else {
+        $next = sprintf( '%s %s &rarr;', __( 'Step', 'woocommerce' ), $step );
     }
     
     
     
-    global $woocommerce;
-    
-    echo '<pre>';
-    // var_dump( $woocommerce->cart->get_cart() );
-    var_dump( WC()->session->get( 'step_2_data' ) );
-    echo '</pre>';
-    
-    
-    
+    return $next;
 }
-
- //add_action( 'woocommerce_before_single_product', 'bmp_show_cart_data' );
-
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 
 
 
@@ -105,7 +98,7 @@ add_filter( 'woocommerce_add_to_cart_redirect', 'my_custom_add_to_cart_redirect'
 
 
 
-
+// Add to cart, redirect to next step
 function add_redirect_woocommerce_after_add_to_cart_button() {
     
     $url = get_field( 'product_redirect_url' );
@@ -116,46 +109,38 @@ function add_redirect_woocommerce_after_add_to_cart_button() {
     
     printf( '<input type="hidden" name="product_redirect_url" value="%s" />', $url );
 }
-
 add_action( 'woocommerce_after_add_to_cart_button', 'add_redirect_woocommerce_after_add_to_cart_button' );
 
 
 
 // Bundled Product Classes
-
-add_filter( 'woocommerce_bundled_item_classes', 'bmp_woocommerce_bundled_item_classes', 10, 2 );
-
 function bmp_woocommerce_bundled_item_classes( $classes, $obj ) {
     
     $class = sprintf( 'bundled_product_%s', $obj->get_id() );
     $classes[] = $class;
     return $classes;
 }
+add_filter( 'woocommerce_bundled_item_classes', 'bmp_woocommerce_bundled_item_classes', 10, 2 );
 
 
 
-// Wrap add to cart button
-
- 
+// Wrap add to cart button 
 function bmp_wrap_open_add_to_cart_button() {
     
     echo '<div class="add-to-cart-box clear"><div class="wrap">';
  
 }
-
 add_action( 'woocommerce_before_add_to_cart_button', 'bmp_wrap_open_add_to_cart_button', 99 );
-
 
 function bmp_wrap_close_add_to_cart_button() {
     
     echo '</div></div>';
 }
-
-add_action( 'woocommerce_after_add_to_cart_button', 'bmp_wrap_close_add_to_cart_button' );
-
+add_action( 'woocommerce_after_add_to_cart_button', 'bmp_wrap_close_add_to_cart_button', 99 );
 
 
 
+// Checkout values
 add_filter('woocommerce_checkout_get_value', function($input, $key ) {
 	global $current_user;
     
@@ -193,16 +178,14 @@ add_filter('woocommerce_checkout_get_value', function($input, $key ) {
 }, 10, 2);
 
 
-add_filter( 'woocommerce_default_address_fields' , 'custom_override_default_address_fields' );
 
-// Our hooked in function - $address_fields is passed via the filter!
+// Change Checkout "Company" field label
 function custom_override_default_address_fields( $address_fields ) {
      $address_fields['company']['label'] = 'Firm Name';
      return $address_fields;
 }
+add_filter( 'woocommerce_default_address_fields' , 'custom_override_default_address_fields' );
 
-
-add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
 
 // Our hooked in function - $fields is passed via the filter!
 function custom_override_checkout_fields( $fields ) {
@@ -210,8 +193,10 @@ function custom_override_checkout_fields( $fields ) {
      $fields['order']['order_comments']['placeholder'] = '';
      return $fields;
 }
+add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
 
 
+// Add Exactify code button to single product
 function exactify_code() {
         
     if( ! is_singular( 'product' ) )
@@ -239,8 +224,7 @@ function exactify_code() {
   </button></div><script src="https://d3gxy7nm8y4yjr.cloudfront.net/js/embed.js" type="text/javascript"></script>', $url );   
         
 }
-
-add_action( 'woocommerce_before_single_product', 'exactify_code' );
+add_action( 'woocommerce_before_single_product', 'exactify_code', 20 );
 
 
 
@@ -255,7 +239,7 @@ function wc_empty_cart_redirect_url() {
 add_filter( 'woocommerce_return_to_shop_redirect', 'wc_empty_cart_redirect_url' );
 
 
-add_filter( 'gettext', 'change_woocommerce_return_to_shop_text', 20, 3 );
+
 function change_woocommerce_return_to_shop_text( $translated_text, $text, $domain ) {
     switch ( $translated_text ) {
                       case 'Return to shop' :
@@ -263,8 +247,10 @@ function change_woocommerce_return_to_shop_text( $translated_text, $text, $domai
        break;
     }
      return $translated_text; 
-
 }
+add_filter( 'gettext', 'change_woocommerce_return_to_shop_text', 20, 3 );
+
+
 
 // If someone hits back button, remove product
 function remove_product_from_cart() {
@@ -290,45 +276,13 @@ function remove_product_from_cart() {
         }
     }
 }
-
-add_action( 'template_redirect', 'remove_product_from_cart' );
-
+// add_action( 'template_redirect', 'remove_product_from_cart' );
 
 
-function custom_maybe_empty_cart( $valid, $product_id, $quantity ) {
-
-    if( ! empty ( WC()->cart->get_cart() ) && $valid ){
- 
-        // Cycle through each product in the cart
-        foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
-            // Get the Variation or Product ID
-            $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
-            // Check to see if IDs match
-            if( $product_id == $prod_id ) {
-                $redirect = get_field( 'product_redirect_url', $product_id );
-                $redirect = $redirect ? sprintf( '<a href="%s" class="">Continue to Next Step</a>', $redirect ) : '';
-                $remove = sprintf( '<a href="%s?bmp-action=remove-product" class="">Clear this step</a>', 
-                                   get_permalink( $product_id ) );
-                $cart_url = sprintf( '<a href="%s" class="">Return to Cart</a>', wc_get_cart_url() );
-                wc_add_notice( sprintf( 'You have completed this step. %s,  %s or %s.', $remove, $redirect, $cart_url ), 'error' );
-                return false;
-            }
-        }
-    }
-    
-    return $valid;
-}
-add_filter( 'woocommerce_add_to_cart_validation', 'custom_maybe_empty_cart', 10, 3 );
-
-
-
-
-add_action( 'woocommerce_before_cart', 'bmp_find_product_in_cart' );
-   
-function bmp_find_product_in_cart() {
+// Helper function to find missing steps in cart
+function bmp_find_missing_products_in_cart() {
  
     // Get products
-    
     $products = bmp_get_products_by_cat( 32 );
     
     $products_in_cart = [];
@@ -349,6 +303,16 @@ function bmp_find_product_in_cart() {
         }
     }
     
+    return $missing;
+  
+}
+
+
+// Add missing products message to cart
+function bmp_add_missing_products_notice_before_cart() {
+ 
+    $missing = bmp_find_missing_products_in_cart();
+    
     if( empty( $missing ) ) {
         return;
     }
@@ -358,6 +322,29 @@ function bmp_find_product_in_cart() {
     wc_print_notice( $notice, 'notice' );
   
 }
+
+add_action( 'woocommerce_before_cart', 'bmp_add_missing_products_notice_before_cart' );
+
+
+function custom_maybe_empty_cart( $valid, $product_id, $quantity ) {
+
+    if( ! empty ( WC()->cart->get_cart() ) && $valid ){
+ 
+        // Cycle through each product in the cart
+        foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
+            // Get the Variation or Product ID
+            $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
+            // Check to see if IDs match
+            if( $product_id == $prod_id ) {
+                WC()->cart->remove_cart_item( $cart_item_key );
+            }
+        }
+    }
+    
+    return $valid;
+}
+add_filter( 'woocommerce_add_to_cart_validation', 'custom_maybe_empty_cart', 10, 3 );
+
 
 // Min qty on product pages
 add_filter( 'woocommerce_quantity_input_args', 'min_qty_input_args', 20, 2 );
@@ -398,58 +385,29 @@ function hide_quantity_input_field( $args, $product ) {
     return $args;
 }
 
-// add_filter( 'woocommerce_quantity_input_args', 'hide_quantity_input_field', 20, 2 );
-/*
-function hide_quantity_input_field( $args, $product ) {
-    // Here set your product IDs in the array
-    $product_ids = array(706);
 
-    // Handling product variation
-    $the_id = $product->is_type('variation') ? $product->get_parent_id() : $product->get_id();
 
-    // Only on cart page for a specific product category
-    if( is_cart() && in_array( $the_id, $product_ids ) ){
-        $input_value = $args['input_value'];
-        $args['min_value'] = 1;
-    }
-    return $args;
-}
-*/
-
-// Function that redirect from checkout to mandatory product category archives pages
+// We need them to add all products, so if they reach the checkout
 function mandatory_category_checkout_redirect() {
+    
+    // Bail if this is not the live site
+    if( true == WP_DEBUG ) {
+        return;
+    }
     
     // If cart is not empty on checkout page
     if( ! WC()->cart->is_empty() && is_checkout() ){
         
-        $products = bmp_get_products_by_cat( 32 );
-    
-        $products_in_cart = [];
-        
-        $missing = [];
-     
-        foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
-            // Get the Variation or Product ID
-            $prod_id = ( isset( $prod_in_cart['variation_id'] ) && 
-                         $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
-            $products_in_cart[] = $prod_id;
-        }
-        
-        foreach( $products as $product ) {
-            
-            if( ! in_array( $product, $products_in_cart ) ) {
-                $missing[] = $product;
-            }
-        }
+        $missing = bmp_find_missing_products_in_cart();
                 
          if( ! empty( $missing ) ) {
+            wc_add_notice( 'You must complete all steps before proceeding to checkout.', 'error' );
             wp_safe_redirect( wc_get_cart_url() );
             exit;
         }
     }
 }
-// Disable for testing checkout
-//add_action('template_redirect', 'mandatory_category_checkout_redirect');
+add_action('template_redirect', 'mandatory_category_checkout_redirect');
 
 
 
@@ -522,7 +480,6 @@ function bmp_get_products_by_cat( $cat = false ) {
 function bmp_subscriptions_thank_you_message( $thank_you_message ) {
     echo sprintf( '<div class="subscription-thankyou-message">%s</div>', $thank_you_message );
 }
-
 add_action( 'woocommerce_subscriptions_thank_you_message', 'bmp_subscriptions_thank_you_message' );
 
 
@@ -634,6 +591,8 @@ The BuildMyPractice team<br /><br />', 'info@buildmypractice.com' );
 
 add_action('woocommerce_email_before_order_table', 'gf_custom_email', 20, 4);
 
+
+
 // Helper function to get gravity forms values from order
 function get_gf_field_value_by_product($order_id, $ordered_product, $field_id)
 {
@@ -654,20 +613,65 @@ function get_gf_field_value_by_product($order_id, $ordered_product, $field_id)
 
 
 
-function my_function_sample() {
+function bmp_after_add_to_cart_quantity() {
   global $product;
-  echo ' <button class="button go-back" type="button" onclick="history.back();"> Go back </button> '; 
+  $product_id = $product->get_id();
+  $products = bmp_get_products_by_cat( 32 );
+  
+  $key = array_search ( $product_id, $products );
+  $step = $key + 2;
+  
+  if( key( $products ) == $key ) {
+    $permalink = get_permalink( 150 ); // Let's Build page
+  } else {    
+    $previous = $products[$key-1];
+    $permalink = get_permalink( $previous );
+  }
+  
+  printf( '<a href="%s" class="button go-back">&larr; Step %s </a>', $permalink,   --$step ) ; 
 }
 
-add_action( 'woocommerce_after_add_to_cart_quantity', 'my_function_sample', 1 );
+add_action( 'woocommerce_after_add_to_cart_quantity', 'bmp_after_add_to_cart_quantity', 1 );
 
 
 
+// Add a "return to cart" button, if they've added all the products to their cart. 
+function bmp_after_add_to_cart_button() {
+  global $product;
+    $product_id = $product->get_id();
+    $products = bmp_get_products_by_cat( 32 );
+  
+    $keys = array_keys( $products );
+    $last = end( $keys );
+    $key = array_search ( $product_id, $products );
+  
+    // Ignore last step 
+    if( $last == $key ) {
+        return;
+    } 
+    
+    // If no missing steps add the return to cart button
+    $missing = bmp_find_missing_products_in_cart();
+    if( empty( $missing ) ) {
+        printf( '<a href="%s" class="button return-to-cart">return to cart &rarr;</a>', wc_get_cart_url() ); 
+    }
+      
+    
+}
+
+add_action('woocommerce_after_add_to_cart_button', 'bmp_after_add_to_cart_button');
+
+
+
+
+// Add custom back to cart button from the Checkout page
 function my_back_to_cart() {
     printf( '<p style="padding-top: 30px;"><a class="button" href="%s">Back to Cart</a></p>', wc_get_cart_url() );
 }
 
 add_action( 'woocommerce_checkout_order_review', 'my_back_to_cart', 9 );
+
+
 
 
 
@@ -698,6 +702,9 @@ function bmp_sort_cart_items() {
     return $cart_contents;
 }
 
+
+
+// Not sure what this does anymore.
 add_action( 'template_redirect', function() {
     if ( is_wc_endpoint_url( 'order-received' ) && is_user_logged_in() ) {
         global $wp;

@@ -27,8 +27,12 @@ do_action( 'woocommerce_before_cart' ); ?>
 	<table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
 		<thead>
 			<tr>
-				<!--<th class="product-remove">&nbsp;</th>-->
-				<th class="product-thumbnail">&nbsp;</th>
+				<?php
+                if( true == WP_DEBUG ) {
+                    echo '<th class="product-remove">&nbsp;</th>';
+                }
+                ?>
+				<!--<th class="product-thumbnail">&nbsp;</th>-->
 				<th class="product-name"><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
 				<th class="product-price"><?php esc_html_e( 'Price', 'woocommerce' ); ?></th>
 				<th class="product-quantity"><?php esc_html_e( 'Quantity', 'woocommerce' ); ?></th>
@@ -49,8 +53,11 @@ do_action( 'woocommerce_before_cart' ); ?>
 					?>
 					<tr class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 
-						<!--<td class="product-remove">
+						
 							<?php
+                            // Show remove link on local
+                            if( true == WP_DEBUG ) {
+                                echo '<td class="product-remove">';
                                 //add_filter( 'woocommerce_cart_item_remove_link', '__return_false' );
 								// @codingStandardsIgnoreLine
 								echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
@@ -60,10 +67,13 @@ do_action( 'woocommerce_before_cart' ); ?>
 									esc_attr( $product_id ),
 									esc_attr( $_product->get_sku() )
 								), $cart_item_key );
+                                
+                                echo '</td>';
+                            }
 							?>
-						</td>-->
+						
 
-						<td class="product-thumbnail">
+						<!--<td class="product-thumbnail">
 						<?php
 						$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
                         echo wp_kses_post( $thumbnail );
@@ -76,7 +86,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						}
                         */
 						?>
-						</td>
+						</td>-->
 
 						<td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
 						<?php

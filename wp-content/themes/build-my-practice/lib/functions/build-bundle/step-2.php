@@ -2,7 +2,7 @@
 
 // Step #2
 
-
+/*
 function step_2_add_to_cart_redirect( $url ) {
 	
     $product_id = wc_get_post_data_by_key( 'add-to-cart' );   
@@ -45,3 +45,4 @@ function step_2_add_to_cart_redirect( $url ) {
 
 }
 add_filter( 'woocommerce_add_to_cart_redirect', 'step_2_add_to_cart_redirect' );
+*/

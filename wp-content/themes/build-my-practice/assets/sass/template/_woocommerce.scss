@@ -1,7 +1,11 @@
 /* CSS Document */
 
 .woocommerce .site-main {
-    padding: 60px 0 60px;
+    padding: 30px 0 30px;
+    
+    @include breakpoint(large) {
+        padding: 60px 0 60px;
+    }
 }
 
 .bundled_product_7 {
@@ -201,10 +205,47 @@
 }
 
 .go-back {
+    display: block;
     margin-right: 10px !important;
     background-color: $gray !important;
     color: #fff !important;
+    padding: 10px 1em!important;
 }
+
+.return-to-cart {
+    display: block;
+    margin-right: 10px !important;
+    background-color: $blue !important;
+    color: #fff !important;
+    padding: 10px 1em!important;
+    
+    @include breakpoint(large) {
+        margin-left: rem-calc(10)!important;   
+    }
+}
+
+@include breakpoint( medium down) {
+    .woocommerce div.product form.cart .go-back,
+    .woocommerce div.product form.cart .single_add_to_cart_button {
+        display: block;
+        float: left!important; 
+        margin-top: rem-calc(15)!important;
+        width: calc(50% - 5px); 
+    }
+    
+    .woocommerce div.product form.cart div.quantity { 
+        float: none;
+        margin: 0;
+    }
+    
+    .return-to-cart {
+        display: block;
+        float: none!important; 
+        margin-top: rem-calc(15)!important;
+        width: 100%; 
+    }
+}
+
 
 .page-checkout {
 
@@ -219,4 +260,326 @@
         margin-top: 30px;
     }
 
+}
+
+
+.progress-bar {
+
+    position: relative;
+    overflow: visible;
+        
+    margin: 0 auto $global-margin;
+    max-width: calc(100% - 20px);
+    
+    @include breakpoint(large) {
+        margin: 0 auto rem-calc(75);
+        max-width: rem-calc(600);   
+    }
+    
+    .close-button {
+        display: none;  
+        position: absolute;
+        top: 20px;
+        right: 20px; 
+    }
+    
+    .toggle-mobile {
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 9;
+        
+        @include breakpoint(large) {
+            display: none;
+        }
+    }
+    
+    ul {
+        @include list-reset;
+        display: flex; 
+        justify-content: space-between;
+        height: 100%;
+                
+        li {
+            position: relative;
+            z-index: 2;
+            height: 80px;
+            flex: 0 0 calc(100% / 11);
+            
+            .step-first,
+            &:last-child {
+                
+                a {
+                    display: block;   
+                }
+                
+                &:not(.step-current) a {
+                    pointer-events: none; 
+                }
+                
+                .progress-number {
+                    background: transparent;
+                    color: $dark-blue;
+                    display: block; 
+                }
+                
+                &:after {
+                    display: none;   
+                }
+            }
+            
+            a {
+                display: none;
+                
+                @include breakpoint(large) {
+                    height: 80px;
+                }
+            }
+            
+            &.step-current,
+            &.step-complete {
+                a {
+                    display: block;     
+                }
+            }
+            
+            .progress-check {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                margin-top: -16px;
+                line-height: 1;
+                
+                i {
+                    display: inline-block;
+                    width: 6px;
+                    height: 11px;
+                    border-width: 0 2px 2px 0;
+                    border-style: solid;
+                    border-color: #002955;
+                    transform-origin: bottom left; 
+                    transform: rotate(45deg);
+                }
+            }
+            
+            &.step-complete:not(.step-current) {
+                .progress-check {
+                    display: block;
+                }
+            }
+            
+            
+            
+            .progress-title {
+                font-size: rem-calc(15);
+                font-weight: 600;
+                color: $dark-blue;
+                transform: translateY(0) translateX(-50%);   
+                bottom: 0;
+                position: absolute;
+                left: 50%;
+                white-space: nowrap;
+                text-align: center;
+                opacity: 0;
+            }
+            
+            .progress-number {
+                display: none;
+                height: 26px;
+                width: 26px;
+                text-align: center;
+                z-index: 2;
+                line-height: 26px;
+                font-size: rem-calc(15);
+                font-weight: 600;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                
+                @include breakpoint(large) {
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    
+                }
+            }
+            
+            &.step-current .progress-number {
+                display: block;
+                border-radius: 50%;
+                background-color: $blue;
+                color: #fff;
+            }
+            
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                z-index: -1;
+                height: 3px;
+                width: 3px;
+                border-radius: 50%;
+                background-color: $dark-blue;
+                
+                @include breakpoint(large) {
+                    height: 5px;
+                    width: 5px;
+                }
+            }
+            
+            .no-touchevents & {
+                &:after {
+                    transition: background-color .3s ease,transform .2s ease;   
+                }
+            }
+                        
+            &.step-current {
+                
+                a {
+                    pointer-events: none; 
+                }
+                
+                .progress-title {
+                    opacity: 1!important;   
+                }
+                .progress-number {
+                    display: block; 
+                }
+            }
+        }
+    }
+    
+    &:not(.expanded) {
+        ul:hover > li:not(.step-incomplete):not(:hover) {
+            .progress-title {
+                opacity: 0!important;   
+            } 
+        }
+    }
+    
+    &.expanded {
+        
+        background-color: #EFF3F1;
+        margin-top: -60px;
+        margin-left: -20px;
+        width: calc(100% + 40px);
+        max-width: none;
+        padding: rem-calc(40 0 40);
+        
+        .toggle-mobile {
+            display: none;   
+        }
+        
+        .close-button {
+            display: block;   
+        }
+        
+        ul {
+            
+            flex-direction: column;
+         
+            li {
+               flex: 0 0 100%; 
+               height: auto;
+               padding: 5px 0;
+               
+               &.step-complete {
+                   .progress-check {
+                        display: block;   
+                   }
+               }
+                              
+               a {
+                    display: flex;
+                    padding: 0 40px 0 60px;
+                    
+                    span {
+                        opacity: 1;
+                    }
+                    
+                    .progress-check {
+                        left: 15px;
+                        transform: translateY(-50%);   
+                        margin-top: -7px;
+                    }
+                    
+                    .progress-number,
+                    .progress-title {
+                        position: inherit;
+                        bottom: auto;
+                        top: auto;
+                        left: auto;
+                        transform: none;   
+                    }
+                    
+                    .progress-title {
+                        padding-left: 15px;   
+                    }
+               }
+               
+               .progress-number {
+                    display: block;   
+               }
+               
+               &:after {
+                    left: 45px;
+                    transform: translateY(-50%);
+                    z-index: -1;
+                    height: 5px;
+                    width: 5px;
+                    border-radius: 50%;
+                    background-color: #044e6d;   
+               }
+            }
+            
+        }
+    }
+           
+}
+
+.no-touchevents {
+        
+    .progress-bar:not(.expanded)  {
+        
+        .step-complete:not(.step-current) {
+            .progress-check {
+                transition: opacity .5s ease .5s,transform .2s ease;
+            }
+            
+            &:hover {
+                .progress-check {
+                    transform: translate(-50%,-64%);
+                }
+                
+                .progress-title {
+                    opacity: 1!important;   
+                }
+                
+                @include breakpoint(large) {
+                    &:after {
+                        transform: scale(1.5);
+                    }   
+                }
+            }
+        }
+        
+        &.step-current:hover { 
+            .progress-title {
+                    opacity: 1;   
+            }   
+        }
+                
+        .progress-title {
+            opacity: 0;
+            transition: opacity .5s ease;
+        }
+    }   
 }
