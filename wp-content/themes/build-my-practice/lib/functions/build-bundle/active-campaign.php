@@ -1,32 +1,46 @@
 <?php
 
-function bmp_post_to_active_campaign( $entry, $form ) {
- 
-    /*
-     $post_url = 'http://thirdparty.com';
-    $body = array(
-        'first_name' => rgar( $entry, '1.3' ),
-        'last_name' => rgar( $entry, '1.6' ),
-        'message' => rgar( $entry, '3' ),
-        );
-    */
+function bmp_activate_campaign_send_request( $data  = [] ) {
     
-    $post_url = 'https://exactifyit.api-us1.com';
+    if( empty( $data ) ) {
+        return false;
+    }
+    
+    // https://www.activecampaign.com/api/example.php?call=contact_sync
+    
+    $post_url = 'https://exactifyit.api-us1.com/admin/api.php';
     $api_key = '6807ea88db67eb50cf97c73a7e200af46d6126b1cbff89ade976c28ef7e09cf68c12ca8c';
     
-    $params = array(
-	
-	    	'api_key'      => $api_key,
-	    	'api_action'   => 'contact_view_email',
-	    	'api_output'   => 'serialize',
-	    	'email'        => $email,
-		);
+    $params = [
+        'api_action'   => 'contact_sync',
+        'api_key'      => $api_key,
+        'api_output'   => 'json',
+    ];
     
-    GFCommon::log_debug( 'gform_after_submission: body => ' . print_r( $body, true ) );
- 
-    $request = new WP_Http();
-    $response = $request->post( $post_url, array( 'body' => $body ) );
-    GFCommon::log_debug( 'gform_after_submission: response => ' . print_r( $response, true ) );
+    $post_url = sprintf( '%s?%s', $post_url, http_build_query( $params ) );
+    
+    $first_name = bmp_session_get_field_value( 3, 24 );
+    $last_name = bmp_session_get_field_value( 3, 25 );
+    $email = bmp_session_get_field_value( 3, 33 );
+    
+    $defaults = array(
+            'instantresponders[123]' => 0, // set to 0 to if you don't want to sent instant autoresponders
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email            
+		);
+        
+    
+    $data = wp_parse_args( $data, $defaults ); 
+        
+            
+    $response = wp_remote_post( $post_url, [ 'body' => $data ] );
+    
+    if ( is_wp_error( $response ) ) {
+       $error_message = $response->get_error_message();
+       //error_log( $error_message );
+    } else {
+       //error_log( print_r( $response, 1 ) );
+    }
     
 }
-// add_action( 'gform_after_submission', 'bmp_post_to_active_campaign', 10, 2 );

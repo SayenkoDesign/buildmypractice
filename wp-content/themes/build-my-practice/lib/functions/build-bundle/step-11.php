@@ -1,5 +1,55 @@
 <?php
 
+
+function step_11_add_to_cart() {
+ 
+    $product_id = wc_get_post_data_by_key( 'add-to-cart' );  
+    
+    // error_log( 'product id: ' . $product_id );   
+        
+    // Step 11: Choose Optional Add-Ons ID 459
+    
+    if( 459 != $product_id ) {
+        return;
+    }
+    
+    $options = [];
+    
+    $bundle_selected_optional_3 = wc_get_post_data_by_key( 'bundle_quantity_3' );
+    $bundle_quantity_3 = wc_get_post_data_by_key( 'bundle_quantity_3' );
+    if( isset( $bundle_selected_optional_3 ) &&  ! empty( $bundle_quantity_3 ) ) {
+        $options[] = sprintf( 'Thread.legal Practice Management: %s', $bundle_quantity_3 );
+    }
+    
+    
+    $bundle_selected_optional_4 = wc_get_post_data_by_key( 'bundle_selected_optional_4' );
+    $bundle_quantity_4 = wc_get_post_data_by_key( 'bundle_quantity_4' );
+    if( isset( $bundle_selected_optional_4 ) &&  ! empty( $bundle_quantity_4 ) ) {
+        $options[] = sprintf( 'LawYaw Forms Automation: %s', $bundle_quantity_4 );
+    }
+    
+    
+    $bundle_selected_optional_5 = wc_get_post_data_by_key( 'bundle_selected_optional_5' );
+    $bundle_quantity_5 = wc_get_post_data_by_key( 'bundle_quantity_5' );
+    if( isset( $bundle_selected_optional_5 ) &&  ! empty( $bundle_quantity_5 ) ) {
+        $options[] = sprintf( 'Microsoft Office Add-On: %s', $bundle_quantity_5 );
+    }
+    
+    
+    $data = [
+        'field[50,0]' => join( ', ', $options ),
+        'tags' => 'Completed Step 11'
+    ];    
+    
+    error_log( print_r( $data, 1 ) );
+    
+    bmp_activate_campaign_send_request( $data );
+    
+}
+add_filter( 'woocommerce_add_to_cart', 'step_11_add_to_cart', 10 );
+
+
+
 /*
 for $39 per user, per month with 1 month free trial (billed directly by Thread)
 

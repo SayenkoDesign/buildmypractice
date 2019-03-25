@@ -40,14 +40,13 @@ function pre_submission_handler( $form ) {
         WC()->session->set( sprintf( 'gf_form_%s_data', $form['id'] ) , $session_values );
     }
 }
-
 add_action("gform_pre_submission", "pre_submission_handler");
 
 
 function add_auto_update_filters( $form ) {
 	    
     $session_values = WC()->session->get( sprintf( 'gf_form_%s_data', $form['id'] ) );
-        
+            
     // Bail if no session data
     if( empty( $session_values ) ) {
         return $form;
@@ -59,10 +58,20 @@ function add_auto_update_filters( $form ) {
         if( ! $field["allowsPrepopulate"] ) {
             continue;   
         }
-                                
+        
+        if( in_array( $field['inputName'], [ 'first_name', 'last_name', 'company', 'email', 'phone' ] ) ) {
+            continue;
+        }
+                       
         add_filter( sprintf( 'gform_field_value_%s', $field['inputName'] ), function( $value, $field, $name ) use( &$form, &$session_values ) {
             
             $key = sprintf( 'gf_form_%s_field_%s', $form['id'], $field["id"] );
+            
+            // Bail on first visit
+            if( empty( $session_values[$key] ) ) {
+                return $value;
+            }
+            
             $values = $session_values[$key];
             
             // Silly Gravity forms, their Product options need to have the price removed.
@@ -73,7 +82,11 @@ function add_auto_update_filters( $form ) {
                 if( ! empty( $parts[0] ) ) {
                     $values = $parts[0];
                 }
+                $values = stripslashes( $values );
+            } else {
+                $values = array_map( 'stripslashes', $values );
             }
+            
             
             // print_r( $session_values );
             return isset( $values ) ? $values : $value;
@@ -86,6 +99,38 @@ function add_auto_update_filters( $form ) {
 add_filter( 'gform_pre_render', 'add_auto_update_filters' );
 //add_filter( 'gform_pre_validation', 'add_auto_update_filters' );
 //add_filter( 'gform_pre_submission', 'add_auto_update_filters' );
+
+
+// Override the following dynamic fields for Active Campiagn
+add_filter( sprintf( 'gform_field_value_%s', 'first_name' ), function( $value, $field, $name ) {
+            
+    return bmp_session_get_field_value( 1, 2 );
+    
+}, 20, 3 );
+
+add_filter( sprintf( 'gform_field_value_%s', 'last_name' ), function( $value, $field, $name ) {
+            
+    return bmp_session_get_field_value( 1, 3 );
+    
+}, 20, 3 );
+
+add_filter( sprintf( 'gform_field_value_%s', 'company' ), function( $value, $field, $name ) {
+            
+    return bmp_session_get_field_value( 1, 4 );
+    
+}, 20, 3 );
+
+add_filter( sprintf( 'gform_field_value_%s', 'email' ), function( $value, $field, $name ) {
+            
+    return bmp_session_get_field_value( 1, 5 );
+    
+}, 20, 3 );
+
+add_filter( sprintf( 'gform_field_value_%s', 'phone' ), function( $value, $field, $name ) {
+            
+    return bmp_session_get_field_value( 1, 6 );
+    
+}, 20, 3 );
 
 
 function is_valid_domain( $domain ) {

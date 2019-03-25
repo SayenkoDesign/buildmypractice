@@ -1,7 +1,7 @@
 <?php
 
 function bmp_build_bundle_progress_bar() {
-
+    
     if( is_product() ) {
         global $product;
         $current = $product->get_id();
@@ -63,7 +63,7 @@ function bmp_build_bundle_progress_bar() {
         // custom progress name for step?
         $title = get_field( 'progress_name', $product_id );
         if( empty( $title ) ) {
-            $title = sprintf( 'Long Step %s', $key + 2 );
+            $title = sprintf( 'Step %s', $key + 2 );
         }
         
         $data = sprintf( '<span class="progress-check"><i></i></span><span class="progress-number">%s</span><span class="progress-title">%s</span>',

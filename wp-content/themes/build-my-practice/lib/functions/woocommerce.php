@@ -251,6 +251,47 @@ function change_woocommerce_return_to_shop_text( $translated_text, $text, $domai
 add_filter( 'gettext', 'change_woocommerce_return_to_shop_text', 20, 3 );
 
 
+function bmp_bundled_item_is_optional_checked( $value, $bundled_item ) {
+    
+    $product_id = $bundled_item->product->get_id();
+    
+    foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
+    // Get the Variation or Product ID
+        $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
+        // Check to see if IDs match
+        if( ( ( $product_id == $prod_id ) ) ) {
+            $value = true;
+            break;
+        }
+    }
+    
+    return $value;
+}
+add_filter( 'woocommerce_bundled_item_is_optional_checked', 'bmp_bundled_item_is_optional_checked', 10, 2 ); // Simple products
+
+
+
+// Populate QTY field
+function bmp_woocommerce_quantity_input_args( $args, $product ) {
+	if ( is_singular( 'product' ) ) {
+		
+        $product_id = $product->get_id();
+        
+        foreach( WC()->cart->cart_contents as $cart_item_key => $prod_in_cart ) {
+            // Get the Variation or Product ID
+            $prod_id = ( isset( $prod_in_cart['variation_id'] ) && $prod_in_cart['variation_id'] != 0 ) ? $prod_in_cart['variation_id'] : $prod_in_cart['product_id'];
+            // Check to see if IDs match
+            if( ( ( $product_id == $prod_id ) ) ) {
+                $args['input_value'] = $prod_in_cart['quantity'];
+            }
+        }
+	}
+	return $args;
+}
+
+add_filter( 'woocommerce_quantity_input_args', 'bmp_woocommerce_quantity_input_args', 10, 2 ); // Simple products
+
+
 
 // If someone hits back button, remove product
 function remove_product_from_cart() {

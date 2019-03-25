@@ -1,55 +1,52 @@
 <?php
 
-add_filter( sprintf( 'gform_pre_render_%s', 6 ), 'preferred_migration_option' );
-add_filter( sprintf( 'gform_pre_validation_%s', 6 ), 'preferred_migration_option' );
-add_filter( sprintf( 'gform_pre_submission_filter_%s', 6 ), 'preferred_migration_option' );
-
 function preferred_migration_option( $form ) {
     
-    $data = WC()->session->get( 'step_2_data' );
-    
+    $storage_option = bmp_session_get_field_value( 3, 31 );
     $option = '';
     
-    if( isset( $data['email_option'] ) && !empty( $data['email_option'] ) ) {
-        $email_option = $data['email_option'];
-        
-        if ( _string_contains( 'Google', $email_option ) || _string_contains( 'G Suite', $email_option ) ) {
-            $option = 'G Suite';
-        }
-        else if ( _string_contains( 'Office 365', $email_option ) ) {
+    if( _string_contains( 'I already have', $storage_option ) ) {
+        $office_email = bmp_session_get_field_value( 3, 26 );
+        $gsuite_email = bmp_session_get_field_value( 3, 27 );
+        if( ! empty( $office_email ) ) {
             $option = 'Office 365';
         }
+        else if( ! empty( $office_email ) ) {
+            $option = 'G Suite';
+        }
         else {
-            
+            $option = '';
         }
     }
+    
+    if( ! empty( $option ) ) {
+        
+        foreach ( $form['fields'] as &$field ) {
+        
+            $choices = $field->choices;
      
-    foreach ( $form['fields'] as &$field ) {
-        
-        $choices = $field->choices;
- 
-        if ( _string_contains( 'preferred-migration-option', $field->cssClass ) ) {        
-            $choices[0]['text'] = str_replace( '[Office 365/ G Suite]', $option, $choices[0]['text'] );
+            if ( _string_contains( 'preferred-migration-option', $field->cssClass ) ) {        
+                $choices[0]['text'] = str_replace( '[Office 365/ G Suite]', $option, $choices[0]['text'] );
+            }
+            
+            $field->choices = $choices;
+                     
         }
-        
-        $field->choices = $choices;
-                 
     }
  
     return $form;
 }
+add_filter( sprintf( 'gform_pre_render_%s', 6 ), 'preferred_migration_option' );
+add_filter( sprintf( 'gform_pre_validation_%s', 6 ), 'preferred_migration_option' );
+add_filter( sprintf( 'gform_pre_submission_filter_%s', 6 ), 'preferred_migration_option' );
 
-add_filter( 'gform_field_value_migration_option', 'bmp_populate_migration_option' );
-function bmp_populate_migration_option( $value ) {
+
+function gform_field_value_gf_form_6_field_3( $value ) {
     
-    $data = WC()->session->get( 'step_2_data' );
-    
-    if( isset( $data['email_option'] ) && !empty( $data['email_option'] ) ) {
-        $email_option = $data['email_option'];
+    $storage_option = bmp_session_get_field_value( 3, 31 );
         
-        if( _string_contains( 'I already have', $email_option ) ) {
-            return "I don't need any data migrated";
-        }
-    }
-    
+    if( _string_contains( 'I already have', $storage_option ) ) {
+        return "I don't need any data migrated";
+    }    
 }
+add_filter( 'gform_field_value_gf_form_6_field_3', 'gform_field_value_gf_form_6_field_3' );

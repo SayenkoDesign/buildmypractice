@@ -2,10 +2,6 @@
 
 // Step #1
 
-/*
-form_id = 3
-*/
-
 $form_id = 5;
 
 function preferred_email_address( $form ) {
@@ -18,46 +14,69 @@ function preferred_email_address( $form ) {
             continue;
         }
         
+        // Defaults
+        $domain = 'domain.com'; 
+        $last_option = 'Other';
+        
+                
+        // Do they have an existing storage option?
+        $existing = false;
+        $storage_option = bmp_session_get_field_value( 3, 31 );
+        
+        if( _string_contains( 'I already have', $storage_option ) ) {
+            $existing = true;
+            $last_option = 'I already have an email address';
+            $office_email = bmp_session_get_field_value( 3, 26 );
+            $gsuite_email = bmp_session_get_field_value( 3, 27 );
+            if( ! empty( $office_email ) ) {
+                $email = $office_email;
+            }
+            else if( ! empty( $office_email ) ) {
+                $email = $office_email;
+            }
+            else {
+                $email = bmp_session_get_field_value( 3, 33 );
+            }
+        } else {
+            $email = '';
+        }
+                
+        
+        
         $first_name = bmp_session_get_field_value( 3, 24 );
         if( empty( $first_name ) ) {
-            $first_name = '[FIRST NAME]';
+            $first_name = 'sabir';
         }
+        
         $last_name = bmp_session_get_field_value( 3, 25 );
         if( empty( $last_name ) ) {
-            $last_name = '[LAST NAME]';
-        }
-        $email = bmp_session_get_field_value( 3, 33 );
-        if( empty( $email ) ) {
-            $email = 'first';
+            $last_name = 'ibrahim';
         }
         
+        
+        // did they register a domain name or have an existing domain?
+        $register_domain = bmp_session_get_field_value( 4, 2 );
+        $existing_domain = bmp_session_get_field_value( 4, 3 );
+        if( ! empty( $register_domain ) ) {
+            $domain = $register_domain; 
+        } elseif( ! empty( $existing_domain ) ) {
+            $domain = $existing_domain; 
+        } else {
+            $domain = 'domain.com'; 
+        }
+        
+        
+        $domain_option = bmp_session_get_field_value( 4, 1 );
+        if( _string_contains( 'choose a domain later', $domain_option ) ) {
+            $domain = 'yourdomain.com'; 
+        }
+        
+        
+        // Format and set up choices
         $first_name = strtolower( $first_name );
-        
-        $first_letter = '[FIRST LETTER OF FIRST NAME]';
-        if( ! empty( $first_name ) ) {
-            $first_letter = $first_name[0];
-        }
-        
+        $first_letter = $first_name[0];
         $last_name = strtolower( $last_name );
-        
-        $domain = bmp_session_get_field_value( 4, 3 );
-        if( empty( $domain ) ) {
-           $domain = 'domain.com'; 
-        }
-        
-        $last_option = '';
-        
-        /*
-        $email_option = $step_2_data['email_option'];
-
-        if( _string_contains( 'I already have', $email_option ) ) {
-        	$last_option = 'I already have an email address';
-        }
-        else {
-        	$last_option = 'Other';
-        }
-        */
-         
+                 
         $options = array(
             sprintf( '%s.%s@%s', $first_name, $last_name, $domain ),
             sprintf( '%s@%s', $first_name, $domain ),
@@ -84,54 +103,33 @@ function preferred_email_address( $form ) {
     return $form;
 }
 add_filter( sprintf( 'gform_pre_render_%s', $form_id ), 'preferred_email_address' );
-add_filter( sprintf( 'gform_pre_validation_%s', $form_id ), 'preferred_email_address' );
-add_filter( sprintf( 'gform_pre_submission_filter_%s', $form_id ), 'preferred_email_address' );
+//add_filter( sprintf( 'gform_pre_validation_%s', $form_id ), 'preferred_email_address' );
+//add_filter( sprintf( 'gform_pre_submission_filter_%s', $form_id ), 'preferred_email_address' );
 
 
-function bmp_populate_preferred_email( $value ) {
+
+
+// Populate Other value
+function gform_field_value_gf_form_5_field_8( $value ) {
     
-    $data = WC()->session->get( 'step_2_data' );
+    $existing = false;
+    $storage_option = bmp_session_get_field_value( 3, 31 );
     
-    $email = '';
-    
-    if( ! empty( $data['office_email'] ) ) {
-        $email = $data['office_email'];
+    if( _string_contains( 'I already have', $storage_option ) ) {
+        $existing = true;
+        $office_email = bmp_session_get_field_value( 3, 26 );
+        $gsuite_email = bmp_session_get_field_value( 3, 27 );
+        if( ! empty( $office_email ) ) {
+            $value = $office_email;
+        }
+        else if( ! empty( $office_email ) ) {
+            $value = $office_email;
+        }
+        else {
+            $value = bmp_session_get_field_value( 3, 33 );
+        }
     }
-    else if( ! empty( $data['gsuite_email'] ) ) {
-        $email = $data['gsuite_email'];
-    }
-    else {
-        $email = $data['email'];
-    }
     
-    if( ! empty( $email ) ) {
-        return 'I already have an email address';
-    }
-    
+    return $value;
 }
-add_filter( 'gform_field_value_preferred_email', 'bmp_populate_preferred_email' );
-
-
-
-add_filter( 'gform_field_value_preferred_email_address', 'bmp_populate_preferred_email_address' );
-function bmp_populate_preferred_email_address( $value ) {
-    
-    $data = WC()->session->get( 'step_2_data' );
-    
-    $email = '';
-    
-    if( ! empty( $data['office_email'] ) ) {
-        $email = $data['office_email'];
-    }
-    else if( ! empty( $data['gsuite_email'] ) ) {
-        $email = $data['gsuite_email'];
-    }
-    else {
-        //$email = $data['email'];
-    }
-    
-    if( ! empty( $email ) ) {
-        return $email;
-    }
-    
-}
+add_filter( 'gform_field_value_gf_form_5_field_8', 'gform_field_value_gf_form_5_field_8' );
