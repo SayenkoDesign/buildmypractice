@@ -25,7 +25,6 @@ function preferred_email_address( $form ) {
         
         if( _string_contains( 'I already have', $storage_option ) ) {
             $existing = true;
-            $last_option = 'I already have an email address';
             $office_email = bmp_session_get_field_value( 3, 26 );
             $gsuite_email = bmp_session_get_field_value( 3, 27 );
             if( ! empty( $office_email ) ) {

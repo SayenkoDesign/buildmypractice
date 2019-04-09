@@ -82,11 +82,14 @@ function add_auto_update_filters( $form ) {
                 if( ! empty( $parts[0] ) ) {
                     $values = $parts[0];
                 }
-                $values = stripslashes( $values );
-            } else {
-                $values = array_map( 'stripslashes', $values );
             }
             
+            
+            if( is_array( $values ) ) {
+                $values = array_map( 'stripslashes', $values );
+            } else {
+                $values = stripslashes( $values );
+            }
             
             // print_r( $session_values );
             return isset( $values ) ? $values : $value;
