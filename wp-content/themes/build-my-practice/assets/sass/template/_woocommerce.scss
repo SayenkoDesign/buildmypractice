@@ -352,7 +352,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%,-50%);
-                margin-top: -16px;
+                margin-top: -20px; // was -16px
                 line-height: 1;
                 
                 i {
@@ -460,7 +460,7 @@
     &:not(.expanded) {
         ul:hover > li:not(.step-incomplete):not(:hover) {
             .progress-title {
-                opacity: 0!important;   
+                opacity: 0;   
             } 
         }
     }
@@ -582,4 +582,13 @@
             transition: opacity .5s ease;
         }
     }   
+}
+
+
+.template-lets-build {
+    .progress-bar ul:hover .step-first {
+        .progress-title {
+            opacity: 1!important;   
+        }   
+    }
 }

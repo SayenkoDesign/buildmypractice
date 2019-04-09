@@ -16,7 +16,7 @@ function bmp_session_data() {
     }
     
 }
-add_action( 'woocommerce_before_single_product', 'bmp_session_data', 10 );
+// add_action( 'woocommerce_before_single_product', 'bmp_session_data', 10 );
 
 
 
